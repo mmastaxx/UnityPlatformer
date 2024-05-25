@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-
-    public float maxHealth { get; private set; } = 100.0f;
-    public float currentHealth { get; private set; }
+    [SerializeField] private float maxHealth = 100.0f;
+    private float currentHealth;
+    HealthBar healthBar;
     Animator animator;
-    [Header("iFrames")]
+    //[Header("iFrames")]
     [SerializeField] private float iFrameDuration = 1.0f;
     [SerializeField] private int numberOfFlash = 6;
     private SpriteRenderer spriteRenderer;
@@ -18,6 +18,10 @@ public class HealthComponent : MonoBehaviour
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        healthBar = GetComponent<HealthBar>();
+        healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetHealth(currentHealth);
+        
     }
     // Update is called once per frame
     void Update()
@@ -27,20 +31,22 @@ public class HealthComponent : MonoBehaviour
             TakeDamage(11.5f);
         }
     }
-    void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-        Debug.Log("Current Health: " + currentHealth);
-        if (currentHealth > 0)
-        {
-            animator.SetTrigger("hurt");
-            StartCoroutine(Invulnerability());
-        }
-        else
-        {
-            Debug.Log("Death?");
-            animator.SetTrigger("death");
-        }
+        //if (!animator.GetBool("bBlock"))
+        //{
+            healthBar.SetHealth(currentHealth);
+            if (currentHealth > 0)
+            {
+                animator.SetTrigger("hurt");
+                StartCoroutine(Invulnerability());
+            }
+            else
+            {
+                animator.SetTrigger("death");
+            }
+        //}
     }
     private IEnumerator Invulnerability()
     {
