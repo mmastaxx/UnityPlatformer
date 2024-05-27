@@ -190,8 +190,9 @@ MonoBehaviour:
     m_Bits: 8
   speed: 2
   idleDuration: 1
-  boxSize: {x: 0, y: 0}
-  castDistance: 0
+  boxSize: {x: 0.8, y: 0.1}
+  offsetX: 0
+  castDistance: 0.7
 --- !u!114 &1093491520758141727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +226,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 312286038917950034}
+  amountOfAttacks: 0
+  attackType: 1
 --- !u!1 &6294318695735681118
 GameObject:
   m_ObjectHideFlags: 0

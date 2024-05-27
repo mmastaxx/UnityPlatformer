@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
@@ -13,6 +11,7 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private float iFrameDuration = 1.0f;
     [SerializeField] private int numberOfFlash = 6;
     private SpriteRenderer spriteRenderer;
+    private bool invulnerable;
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -21,21 +20,14 @@ public class HealthComponent : MonoBehaviour
         healthBar = GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(currentHealth);
-        
     }
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(11.5f);
-        }
-    }
     public void TakeDamage(float damage)
     {
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-        //if (!animator.GetBool("bBlock"))
-        //{
+        if (!invulnerable)
+        {
+            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+
             healthBar.SetHealth(currentHealth);
             if (currentHealth > 0)
             {
@@ -46,22 +38,37 @@ public class HealthComponent : MonoBehaviour
             {
                 animator.SetTrigger("death");
             }
-        //}
+        }
+    }
+    public void IFramesOn() 
+    {
+        invulnerable = true;
+        Physics2D.IgnoreLayerCollision(7, 6, true);
+    }
+    public void IFramesOff()
+    {
+        invulnerable = false;
+        Physics2D.IgnoreLayerCollision(7, 6, false);
     }
     private IEnumerator Invulnerability()
     {
-        Physics2D.IgnoreLayerCollision(7, 6, true);
+        IFramesOn();
         spriteRenderer.color = new Color(1, 1, 1, 0.5f);
         yield return new WaitForSeconds(iFrameDuration * 0.75f);
-        for (int i = 0; i < numberOfFlash; i++)
+        if (numberOfFlash > 0)
         {
-            spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(iFrameDuration*0.25f / (numberOfFlash * 2));
-            spriteRenderer.color = new Color(1, 1, 1, 0.5f);
-            yield return new WaitForSeconds(iFrameDuration / (numberOfFlash * 2));
+            for (int i = 0; i < numberOfFlash; i++)
+            {
+                spriteRenderer.color = Color.white;
+                yield return new WaitForSeconds(iFrameDuration * 0.25f / (numberOfFlash * 2));
+                spriteRenderer.color = new Color(1, 1, 1, 0.5f);
+                yield return new WaitForSeconds(iFrameDuration / (numberOfFlash * 2));
+            }
         }
+        else
+            yield return new WaitForSeconds(iFrameDuration * 0.25f);
         spriteRenderer.color = Color.white;
-        Physics2D.IgnoreLayerCollision(7, 6, false);
+        IFramesOff();
     }
 
 }
