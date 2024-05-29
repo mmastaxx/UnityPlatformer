@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour
     private void Move()
     {
         if (isGrounded())
-            body.velocity = new Vector2(playerInput.movementInput.x * groundSpeed, body.velocity.y);
+            body.velocity = new Vector2(playerInput.movementInput.x * groundSpeed, body.velocity.y) ;
         else
             body.velocity = new Vector2(playerInput.movementInput.x * airSpeed, body.velocity.y);
 
@@ -51,7 +51,7 @@ public class Movement : MonoBehaviour
             animator.SetBool("bGrounded", false);
         }
     }
-    private bool isGrounded() 
+    public bool isGrounded() 
     {
         if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer)) 
         {

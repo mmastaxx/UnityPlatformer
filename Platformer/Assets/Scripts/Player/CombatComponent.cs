@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CombatComponent : MonoBehaviour
 {
@@ -15,12 +17,13 @@ public class CombatComponent : MonoBehaviour
     [SerializeField] private float rollCooldown = 0.5f;
     [SerializeField] private float comboCooldown = 1;
     private int attackIndex = 0;
-    private float timeSinceAttack;
-    private float timeSinceRoll;
+    private float timeSinceAttack = Mathf.Infinity;
+    private float timeSinceRoll = Mathf.Infinity;
     private Animator animator;
     private PlayerInput playerInput;
     private Movement playerMovement;
     private HealthComponent healthComponent;
+    private Rigidbody2D body;
     // Update is called once per frame
     private void Awake()
     {
@@ -28,12 +31,17 @@ public class CombatComponent : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerMovement = GetComponent<Movement>();
         healthComponent = GetComponent<HealthComponent>();
+        body = GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
         Attack();
         Block();
         Roll();
+        if (!playerMovement.enabled) 
+        {
+            body.velocity = new Vector2(transform.localScale.normalized.x * playerMovement.speed, body.velocity.y); 
+        }
     }
     private void Attack()
     {
@@ -84,20 +92,21 @@ public class CombatComponent : MonoBehaviour
     private void Roll()
     {
         timeSinceRoll += Time.deltaTime;
-        if (playerInput.rollInput&& timeSinceRoll>rollCooldown)
+        if (playerInput.rollInput && timeSinceRoll > rollCooldown)
         {
             animator.SetTrigger("roll");
-            playerMovement.enabled = false; 
-            timeSinceRoll = 0;
-            healthComponent.IFramesOn();
+            if (playerMovement.isGrounded())
+            {
+                playerMovement.enabled = false;
+                timeSinceRoll = 0;
+                healthComponent.IFramesOn();
+            }
         }
     }
-    private void EndRoll() 
+    private void EndRoll()
     {
         healthComponent.IFramesOff();
         playerMovement.enabled = true;
-        
-
     }
     private void OnDrawGizmos()
     {
