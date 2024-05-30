@@ -2,17 +2,20 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInput))]
 public class Movement : MonoBehaviour
 {
-    
-    [SerializeField] private float airSpeed = 5;
-    [SerializeField] private float groundSpeed = 10;
+    [Header("Speed")]
     public float speed;
-    [SerializeField] private float jumpHeight = 3;
-    [SerializeField] private float castDistance;
-    [SerializeField] private Vector2 boxSize;
-    [SerializeField] private LayerMask groundLayer;
-    private Rigidbody2D body;
-    private Animator animator;
-    private PlayerInput playerInput;
+    [SerializeField] float airSpeed = 5;
+    [SerializeField] float groundSpeed = 10;
+    [SerializeField] float jumpHeight = 3;
+
+    [Header("Collision")]
+    [SerializeField] float castDistance;
+    [SerializeField] Vector2 boxSize;
+    [SerializeField] LayerMask groundLayer;
+
+    Rigidbody2D body;
+    Animator animator;
+    PlayerInput playerInput;
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -48,7 +51,7 @@ public class Movement : MonoBehaviour
         if ((playerInput.jumpInput) && isGrounded())
         {
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
-            animator.SetBool("bGrounded", false);
+            animator.SetTrigger("jump");
         }
     }
     public bool isGrounded() 

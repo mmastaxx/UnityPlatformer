@@ -1,18 +1,23 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    [SerializeField] private float maxHealth = 100.0f;
-    private float currentHealth;
-    HealthBar healthBar;
+    [Header("Health")]
+    [SerializeField] float maxHealth = 100.0f;
+    
+    [Header("iFrames")]
+    [SerializeField] float iFrameDuration = 1.0f;
+    [SerializeField] int numberOfFlash = 6;
+
+    SpriteRenderer spriteRenderer;
+    bool invulnerable;
+    float currentHealth;
+    public HealthBar healthBar;
     Animator animator;
-    //[Header("iFrames")]
-    [SerializeField] private float iFrameDuration = 1.0f;
-    [SerializeField] private int numberOfFlash = 6;
-    private SpriteRenderer spriteRenderer;
-    private bool invulnerable;
-    private void Awake()
+    public event Action<GameObject> OnDead;
+    private void Start()
     {
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
@@ -40,7 +45,7 @@ public class HealthComponent : MonoBehaviour
             }
         }
     }
-    public void IFramesOn() 
+    public void IFramesOn()
     {
         invulnerable = true;
         Physics2D.IgnoreLayerCollision(7, 6, true);
@@ -70,5 +75,9 @@ public class HealthComponent : MonoBehaviour
         spriteRenderer.color = Color.white;
         IFramesOff();
     }
-
+    public void Death(GameObject obj) 
+    {
+        Debug.Log("Death");
+        OnDead?.Invoke(gameObject);
+    }
 }

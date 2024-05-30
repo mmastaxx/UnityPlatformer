@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f45a131bf3d978429ad5d4be0969063, type: 3}
   m_Name: PostProcessing Profile
   m_EditorClassIdentifier: 
-  components:
-  - {fileID: 8536463912401719372}
 --- !u!114 &8536463912401719372
 MonoBehaviour:
   m_ObjectHideFlags: 3

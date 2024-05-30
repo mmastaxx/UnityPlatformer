@@ -4,26 +4,31 @@ using UnityEngine.UIElements;
 
 public class CombatComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] float Damage;
 
-    [SerializeField] private Transform attackPoint;
-    [SerializeField] private Transform blockPoint;
-    [SerializeField] private LayerMask enemyMask;
-    [SerializeField] private LayerMask projectileMask;
-    [SerializeField] private float attackRadius;
-    [SerializeField] private float blockRadius;
-    [SerializeField] private float Damage;
-    [SerializeField] private float attackCooldown = 0.1f;
-    [SerializeField] private float rollCooldown = 0.5f;
-    [SerializeField] private float comboCooldown = 1;
-    private int attackIndex = 0;
-    private float timeSinceAttack = Mathf.Infinity;
-    private float timeSinceRoll = Mathf.Infinity;
-    private Animator animator;
-    private PlayerInput playerInput;
-    private Movement playerMovement;
-    private HealthComponent healthComponent;
-    private Rigidbody2D body;
+    [Header("Attack")]
+    [SerializeField] Transform attackPoint;
+    [SerializeField] LayerMask enemyMask;
+    [SerializeField] float attackRadius;
+
+    [Header("Block")]
+    [SerializeField] Transform blockPoint;
+    [SerializeField] LayerMask projectileMask;
+    [SerializeField] float blockRadius;
+
+    [Header("Cooldowns")]
+    [SerializeField] float attackCooldown = 0.1f;
+    [SerializeField] float rollCooldown = 0.5f;
+    [SerializeField] float comboCooldown = 1;
+
+    int attackIndex = 0;
+    float timeSinceAttack = Mathf.Infinity;
+    float timeSinceRoll = Mathf.Infinity;
+    Animator animator;
+    PlayerInput playerInput;
+    Movement playerMovement;
+    HealthComponent healthComponent;
+    Rigidbody2D body;
     // Update is called once per frame
     private void Awake()
     {
@@ -38,10 +43,6 @@ public class CombatComponent : MonoBehaviour
         Attack();
         Block();
         Roll();
-        if (!playerMovement.enabled) 
-        {
-            body.velocity = new Vector2(transform.localScale.normalized.x * playerMovement.speed, body.velocity.y); 
-        }
     }
     private void Attack()
     {
@@ -50,7 +51,7 @@ public class CombatComponent : MonoBehaviour
         {
             if (timeSinceAttack > attackCooldown)
             {
-                attackIndex++;
+                timeSinceAttack = 0;
                 if (timeSinceAttack > comboCooldown)
                 {
                     attackIndex = 1;
@@ -61,7 +62,7 @@ public class CombatComponent : MonoBehaviour
                 }
                 animator.SetInteger("attackIndex", attackIndex);
                 animator.SetTrigger("attack");
-                timeSinceAttack = 0;
+                attackIndex++;
             }
         }
     }
@@ -95,13 +96,16 @@ public class CombatComponent : MonoBehaviour
         if (playerInput.rollInput && timeSinceRoll > rollCooldown)
         {
             animator.SetTrigger("roll");
-            if (playerMovement.isGrounded())
-            {
-                playerMovement.enabled = false;
-                timeSinceRoll = 0;
-                healthComponent.IFramesOn();
-            }
+            playerMovement.enabled = false;
+            timeSinceRoll = 0;
+            healthComponent.IFramesOn();
         }
+        if (!playerMovement.enabled)
+        {
+            body.velocity = new Vector2(transform.localScale.normalized.x * playerMovement.speed, body.velocity.y);
+        }
+        if (!playerMovement.isGrounded())
+            animator.SetBool("bFalling", false);
     }
     private void EndRoll()
     {
