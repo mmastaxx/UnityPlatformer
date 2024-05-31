@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
+
     [Header("Health")]
     [SerializeField] float maxHealth = 100.0f;
     
@@ -11,12 +12,14 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] float iFrameDuration = 1.0f;
     [SerializeField] int numberOfFlash = 6;
 
+    AudioManager audioManager;
+    const int PLAYER_LAYER = 7;
+    const int ENEMY_LAYER = 6;
     SpriteRenderer spriteRenderer;
     bool invulnerable;
     float currentHealth;
     public HealthBar healthBar;
     Animator animator;
-    public event Action<GameObject> OnDead;
     private void Start()
     {
         currentHealth = maxHealth;
@@ -25,23 +28,39 @@ public class HealthComponent : MonoBehaviour
         healthBar = GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(currentHealth);
+        audioManager = FindObjectOfType<AudioManager>();
     }
     // Update is called once per frame
     public void TakeDamage(float damage)
     {
         if (!invulnerable)
         {
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
-
-            healthBar.SetHealth(currentHealth);
             if (currentHealth > 0)
             {
+                currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
+
+                healthBar.SetHealth(currentHealth);
+                if (gameObject.layer == ENEMY_LAYER)
+                {
+                    audioManager.Play("hurtEnemy" + UnityEngine.Random.Range(1, 4));
+                } else if (gameObject.layer == PLAYER_LAYER)
+                {
+                    audioManager.Play("hurt" + UnityEngine.Random.Range(1, 3));
+                }
                 animator.SetTrigger("hurt");
                 StartCoroutine(Invulnerability());
             }
             else
             {
                 animator.SetTrigger("death");
+                if (gameObject.layer == ENEMY_LAYER)
+                {
+                    audioManager.Play("deathEnemy");
+                }
+                else if (gameObject.layer == PLAYER_LAYER)
+                {
+                    audioManager.Play("death");
+                }
             }
         }
     }
@@ -75,9 +94,9 @@ public class HealthComponent : MonoBehaviour
         spriteRenderer.color = Color.white;
         IFramesOff();
     }
-    public void Death(GameObject obj) 
+    private void Death(GameObject obj) 
     {
-        Debug.Log("Death");
-        OnDead?.Invoke(gameObject);
+        if (gameObject.layer == PLAYER_LAYER) { EventManager.OnPlayerDead(gameObject);} else { EventManager.OnEnemyDead(gameObject); }
+        Debug.Log($"Death of: {gameObject.name}");
     }
 }

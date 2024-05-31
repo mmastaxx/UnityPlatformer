@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Spawner : MonoBehaviour
 {
@@ -10,8 +11,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] GameObject[] enemies;
     [SerializeField] Transform playerSpawnPoint;
     [SerializeField] GameObject player;
-    public event Action<GameObject> OnPlayerSpawned;
-    public event Action<GameObject> OnEnemySpawned;
+    
 
     private void Start()
     {
@@ -19,9 +19,9 @@ public class Spawner : MonoBehaviour
         {
             GameObject enemy = enemies[UnityEngine.Random.Range(0, enemies.Length)];
             GameObject enemyCopy = Instantiate(enemy, enemySpawnPoints.GetChild(i).position + new Vector3(0, (enemy.GetComponent<BoxCollider2D>().size.y * 2)), Quaternion.identity);
-            OnEnemySpawned?.Invoke(enemyCopy);
+            EventManager.OnEnemySpawned(enemyCopy);
         }
         GameObject playerCopy = Instantiate(player, playerSpawnPoint.position, Quaternion.identity);
-        OnPlayerSpawned?.Invoke(playerCopy);
+        EventManager.OnPlayerSpawned(playerCopy);
     }
 }

@@ -361,7 +361,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smoothTime: 0.15
   offset: {x: 0, y: 2.5, z: -1}
-  playerTransform: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &8575000067433661828
 GameObject:

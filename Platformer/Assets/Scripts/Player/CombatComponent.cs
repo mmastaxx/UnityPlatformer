@@ -21,7 +21,7 @@ public class CombatComponent : MonoBehaviour
     [SerializeField] float rollCooldown = 0.5f;
     [SerializeField] float comboCooldown = 1;
 
-    int attackIndex = 0;
+    int attackIndex = 1;
     float timeSinceAttack = Mathf.Infinity;
     float timeSinceRoll = Mathf.Infinity;
     Animator animator;
@@ -29,6 +29,7 @@ public class CombatComponent : MonoBehaviour
     Movement playerMovement;
     HealthComponent healthComponent;
     Rigidbody2D body;
+    AudioManager audioManager;
     // Update is called once per frame
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class CombatComponent : MonoBehaviour
         playerMovement = GetComponent<Movement>();
         healthComponent = GetComponent<HealthComponent>();
         body = GetComponent<Rigidbody2D>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
     private void Update()
     {
@@ -62,7 +64,6 @@ public class CombatComponent : MonoBehaviour
                 }
                 animator.SetInteger("attackIndex", attackIndex);
                 animator.SetTrigger("attack");
-                attackIndex++;
             }
         }
     }
@@ -111,10 +112,19 @@ public class CombatComponent : MonoBehaviour
     {
         healthComponent.IFramesOff();
         playerMovement.enabled = true;
+
+    }
+    private void AttackStart()
+    {
+        ++attackIndex;
+        audioManager.Play("attack" + (attackIndex-1));
+        Debug.Log(attackIndex);
+        
     }
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(blockPoint.position, blockRadius);
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
+
 }
