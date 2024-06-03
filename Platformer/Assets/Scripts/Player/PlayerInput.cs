@@ -10,11 +10,14 @@ public class PlayerInput : MonoBehaviour
     public bool rollInput { get; private set; }
     void Update()
     {
-        movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        jumpInput = Input.GetKeyDown(KeyCode.Space);
-        attackInput = Input.GetMouseButtonDown(0);
-        blockDownInput = Input.GetMouseButtonDown(1);
-        blockUpInput = Input.GetMouseButtonUp(1);
-        rollInput = Input.GetKeyDown(KeyCode.LeftControl);
+        if (!Pause.bGamePaused)
+        {
+            movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            jumpInput = Input.GetKeyDown(KeyCode.Space);
+            attackInput = Input.GetMouseButtonDown(0);
+            blockDownInput = Input.GetMouseButtonDown(1);
+            blockUpInput = Input.GetMouseButtonUp(1);
+            rollInput = Input.GetKeyDown(KeyCode.LeftControl);
+        }
     }
 }

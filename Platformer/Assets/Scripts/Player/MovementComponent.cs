@@ -16,12 +16,14 @@ public class Movement : MonoBehaviour
     Rigidbody2D body;
     Animator animator;
     PlayerInput playerInput;
+    AudioManager audioManager;
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         speed = groundSpeed;
+        audioManager = FindObjectOfType<AudioManager>();
     }
     // Update is called once per frame
     void Update()
@@ -52,6 +54,7 @@ public class Movement : MonoBehaviour
         {
             body.velocity = new Vector2(body.velocity.x, jumpHeight);
             animator.SetTrigger("jump");
+            audioManager.Play("jump");
         }
     }
     public bool isGrounded() 

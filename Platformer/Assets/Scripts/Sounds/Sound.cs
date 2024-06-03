@@ -4,7 +4,12 @@ using UnityEngine;
 [System.Serializable]
 public class Sound
 {
+    public enum Type
+    {
+        Music,Effects
+    }
     public string name;
+    public Type type;
     public AudioClip clip;
     [Range(0f,1f)]
     public float volume;

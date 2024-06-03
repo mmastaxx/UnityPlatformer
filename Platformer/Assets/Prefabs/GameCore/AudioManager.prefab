@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6473572708797388431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6519536107300289726}
+  - component: {fileID: 4633868891132892636}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6519536107300289726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473572708797388431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4633868891132892636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473572708797388431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2accd9972bd483f46ba48e33b69f41a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundArray:
+  - name: Rain
+    type: 1
+    clip: {fileID: 8300000, guid: 29965123535b0df4c9d7d2ae18eff001, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    audioSource: {fileID: 0}
+  - name: attack1
+    type: 1
+    clip: {fileID: 8300000, guid: 965e8bce2da43724f805fd2660943689, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: attack2
+    type: 1
+    clip: {fileID: 8300000, guid: 55dc0007be2a9d84388954955cc91a62, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: attack3
+    type: 1
+    clip: {fileID: 8300000, guid: d4913fc1ccdb6944fa38420adc32d749, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: ForestTheme
+    type: 0
+    clip: {fileID: 8300000, guid: f70731c5bb536d04fa9c6f60bf0f00cd, type: 3}
+    volume: 0.8
+    pitch: 1
+    loop: 1
+    audioSource: {fileID: 0}
+  - name: jump
+    type: 1
+    clip: {fileID: 8300000, guid: d3fc69dabfd93ab47836c32e198bec60, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: hurt1
+    type: 1
+    clip: {fileID: 8300000, guid: 382031ceb3b174c449d2b860b266d7d6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: hurt2
+    type: 1
+    clip: {fileID: 8300000, guid: 0584b764d97152e4ba4504a90bb5dcfd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: death
+    type: 1
+    clip: {fileID: 8300000, guid: 9a4a47560656f83489b69d9941c2e432, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: hurtEnemy1
+    type: 1
+    clip: {fileID: 8300000, guid: f6460bf77718cd4499c610bffa0fcaa6, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: hurtEnemy2
+    type: 1
+    clip: {fileID: 8300000, guid: 754b086544d98ef4d8b1909fa0fc484a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: hurtEnemy3
+    type: 1
+    clip: {fileID: 8300000, guid: e39115ee380f06b4a9ab057aae4c8788, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: deathEnemy
+    type: 1
+    clip: {fileID: 8300000, guid: c25ae632c3ef04246845d9cd6c4cdb1d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
+  - name: jump
+    type: 1
+    clip: {fileID: 8300000, guid: d3fc69dabfd93ab47836c32e198bec60, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioSource: {fileID: 0}
