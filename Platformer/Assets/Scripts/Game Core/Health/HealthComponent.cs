@@ -15,9 +15,11 @@ public class HealthComponent : MonoBehaviour
     const int ENEMY_LAYER = 6;
     SpriteRenderer spriteRenderer;
     bool invulnerable;
+    bool dead = false;
     float currentHealth;
     public HealthBar healthBar;
     Animator animator;
+    
     private void Start()
     {
         currentHealth = maxHealth;
@@ -31,7 +33,7 @@ public class HealthComponent : MonoBehaviour
     // Update is called once per frame
     public void TakeDamage(float damage)
     {
-        if (!invulnerable)
+        if (!invulnerable && !dead)
         {
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
 
@@ -51,13 +53,19 @@ public class HealthComponent : MonoBehaviour
             else
             {
                 animator.SetTrigger("death");
+                dead = true;
                 if (gameObject.layer == ENEMY_LAYER)
                 {
                     audioManager.Play("deathEnemy");
+                    gameObject.GetComponent<EnemyMovement>().enabled = false;
+                    gameObject.GetComponent<EnemyCombat>().enabled = false;
                 }
                 else if (gameObject.layer == PLAYER_LAYER)
                 {
                     audioManager.Play("death");
+                    gameObject.GetComponent<PlayerInput>().enabled = false;
+                    gameObject.GetComponent<Movement>().enabled = false;
+                    gameObject.GetComponent<CombatComponent>().enabled = false;
                 }
             }
         }
@@ -94,7 +102,6 @@ public class HealthComponent : MonoBehaviour
     }
     private void Death(GameObject obj) 
     {
-        if (gameObject.layer == PLAYER_LAYER) { EventManager.OnPlayerDead(gameObject);} else { EventManager.OnEnemyDead(gameObject); }
-        Debug.Log($"Death of: {gameObject.name}");
+        if (gameObject.layer == PLAYER_LAYER) { EventManager.OnPlayerDead(gameObject); gameObject.GetComponent<Animator>().enabled = false; } else { EventManager.OnEnemyDead(gameObject); }
     }
 }

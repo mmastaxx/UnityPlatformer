@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     private void PlayerDead(GameObject player)
     {
         audioManager.StopAll();
+        PlayerPrefs.SetInt("BestScore", (int)Score);
         levelLoader.LoadFirstLevel();
     }
     void EnemyDead(GameObject obj)

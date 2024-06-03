@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i< enemySpawnPoints.childCount;i++)
         {
             GameObject enemy = enemies[UnityEngine.Random.Range(0, enemies.Length)];
-            GameObject enemyCopy = Instantiate(enemy, enemySpawnPoints.GetChild(i).position + new Vector3(0, (enemy.GetComponent<BoxCollider2D>().size.y * 2)), Quaternion.identity);
+            GameObject enemyCopy = Instantiate(enemy, enemySpawnPoints.GetChild(i).position + new Vector3(0, (enemy.GetComponent<BoxCollider2D>().size.y * 2.2f)), Quaternion.identity);
             EventManager.OnEnemySpawned(enemyCopy);
         }
         GameObject playerCopy = Instantiate(player, playerSpawnPoint.position, Quaternion.identity);
