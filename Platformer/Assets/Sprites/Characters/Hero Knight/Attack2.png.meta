@@ -165,7 +165,7 @@ TextureImporter:
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,7 +186,7 @@ TextureImporter:
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -207,7 +207,7 @@ TextureImporter:
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -223,12 +223,12 @@ TextureImporter:
       name: Attack2_3
       rect:
         serializedVersion: 2
-        x: 540
+        x: 539
         y: 0
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,7 +249,7 @@ TextureImporter:
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -270,7 +270,7 @@ TextureImporter:
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -291,7 +291,7 @@ TextureImporter:
         width: 180
         height: 180
       alignment: 9
-      pivot: {x: 0.5, y: 0.54}
+      pivot: {x: 0.5, y: 0.56}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

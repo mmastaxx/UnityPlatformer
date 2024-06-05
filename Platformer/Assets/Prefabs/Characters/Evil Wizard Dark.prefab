@@ -367,7 +367,7 @@ Transform:
   m_GameObject: {fileID: 5901484163493284706}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.098, y: -0.433, z: 0.04620128}
+  m_LocalPosition: {x: 0.14, y: -0.446, z: 0.04620128}
   m_LocalScale: {x: 0.6468667, y: 1.1682681, z: 2.54281}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -398,7 +398,7 @@ Transform:
   m_GameObject: {fileID: 6392288301068471972}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.099, y: -0.345, z: 0.04620128}
+  m_LocalPosition: {x: 0.14, y: -0.359, z: 0.04620128}
   m_LocalScale: {x: 0.6468667, y: 1.1682681, z: 2.54281}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -636,10 +636,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015425891, y: -0.15337679}
+  m_Offset: {x: -0.015425891, y: -0.15248194}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.51}
     oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 2.5, y: 2.5}
     adaptiveTilingThreshold: 0.5
@@ -647,7 +647,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30420905, y: 0.5501409}
+  m_Size: {x: 0.30420905, y: 0.53045523}
   m_EdgeRadius: 0
 --- !u!95 &4696361720074495947
 Animator:
@@ -682,9 +682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8393af549a137e64ebb81e86c6d7107c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 150
   iFrameDuration: 0
   numberOfFlash: 0
+  healthBar: {fileID: 0}
 --- !u!114 &8164865171581562327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,9 +714,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 8
-  offsetX: -0.15
-  castDistance: 1.11
-  boxSize: {x: 0.8, y: 0.1}
+  offsetX: -0.05
+  castDistance: 1.16
+  boxSize: {x: 0.92, y: 0.1}
   groundCollider: {fileID: 8837991473729202915}
   wallCollider: {fileID: 5849300765480745823}
   speed: 2.5

@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 4061022701916468295}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -484,7 +484,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   blockRadius: 0.33
-  attackCooldown: 0.5
+  attackCooldown: 0.7
   rollCooldown: 0.7
   comboCooldown: 3
 --- !u!114 &7434407061919147272
@@ -502,7 +502,6 @@ MonoBehaviour:
   maxHealth: 100
   iFrameDuration: 1
   numberOfFlash: 4
-  healthBar: {fileID: 0}
 --- !u!114 &4423824542921452066
 MonoBehaviour:
   m_ObjectHideFlags: 0

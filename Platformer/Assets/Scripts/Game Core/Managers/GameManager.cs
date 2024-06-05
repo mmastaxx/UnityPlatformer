@@ -5,22 +5,35 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] TMP_Text killText;
-    [SerializeField] TMP_Text scoreText;
+    [SerializeField] TMP_Text scoreText; 
+    [SerializeField] TMP_Text timerText;
+    [SerializeField] GameObject WinHolder;
 
     [Header("Exit parameters")]
     [SerializeField] GameObject closedDoor;
     [SerializeField] GameObject openedDoor;
     [SerializeField] GameObject doorCollider;
-    uint Score = 0;
+   
+    [Header("BossFight")]
+    [SerializeField] GameObject ExitBlockCollider;
+    [SerializeField] GameObject BossCollider;
+    [SerializeField] Transform bossSpawnPoint;
+    [SerializeField] GameObject boss;
+
     uint KillCounter = 0;
     float timeToKill = 0;
     AudioManager audioManager;
     LevelLoader levelLoader;
+    Timer timer;
+    Score score;
+    
+    public static event Action<float,float> UpdateScore;
     private void Awake()
     {
         if (openedDoor || closedDoor)
@@ -33,8 +46,48 @@ public class GameManager : MonoBehaviour
         EventManager.PlayerDead += PlayerDead;
         EventManager.EnemyDead += EnemyDead;
         ExitCollider.ExitEntered += OnExitEntered;
+        BossTrigger.ArenaEntered += OnArenaEntered;
+        EventManager.GameEnd += OnGameEnded;
         audioManager = FindObjectOfType<AudioManager>();
         levelLoader = FindObjectOfType<LevelLoader>();
+        timer = FindObjectOfType<Timer>();
+        score = FindObjectOfType<Score>();
+        timer.timerText = timerText;
+        score.scoreText = scoreText;
+        UpdateScore?.Invoke(0,500);
+    }
+
+    private void OnArenaEntered()
+    {
+        audioManager.StopAll();
+        audioManager.Play("BossFight");
+        if (boss != null)
+        {
+            GameObject bossCopy = Instantiate(boss, bossSpawnPoint.position, Quaternion.identity);
+        }
+        ExitBlockCollider.SetActive(true);
+    }
+
+    private void OnGameEnded()
+    {
+        audioManager.StopAll();
+        killText.enabled = false;
+        scoreText.enabled = false;
+        timerText.enabled = false;
+        timer.enabled = false;
+        score.enabled = false;
+        Destroy(timer.gameObject);
+        Destroy(score.gameObject);
+        Time.timeScale = 0f;
+        WinHolder.SetActive(true);
+        audioManager.Play("win");
+        int ScoreRecord = PlayerPrefs.GetInt("BestScore");
+        if (ScoreRecord < score.score)
+            PlayerPrefs.SetInt("BestScore", score.score);
+        float TimeRecord = PlayerPrefs.GetFloat("BestTime");
+        if (TimeRecord > timer.timeToDisplay)
+            PlayerPrefs.SetFloat("BestTime", timer.timeToDisplay);
+        GameObject.FindWithTag("Player").SetActive(false);
     }
 
     private void OnExitEntered()
@@ -54,37 +107,30 @@ public class GameManager : MonoBehaviour
     public void PlayerSpawned(GameObject player)
     {
         Camera.main.GetComponent<CameraComponent>().SetTargerToFollow(player);
-        UpdateText();
+        killText.text = $"Enemy left: \n{KillCounter}";
         EventManager.OnTimerStart();
     }
 
     private void PlayerDead(GameObject player)
     {
         audioManager.StopAll();
-        PlayerPrefs.SetInt("BestScore", (int)Score);
+        timer.enabled = false; 
+        score.enabled = false;
+        Destroy(timer);
+        Destroy(score);
         levelLoader.LoadFirstLevel();
     }
     void EnemyDead(GameObject obj)
     {
-        CalculatePoints(obj.GetComponent<HealthComponent>().maxHealth);
+        UpdateScore?.Invoke(obj.GetComponent<HealthComponent>().maxHealth, timeToKill);
         timeToKill = 0;
         Destroy(obj);
         KillCounter--;
+        killText.text = $"Enemy left: \n{KillCounter}";
         if (KillCounter == 0)
         {
             OpenDoor();
         }
-        UpdateText();
-    }
-    private void CalculatePoints(float maxHealth)
-    {
-        Score += (uint)MathF.Truncate(maxHealth + 500 / timeToKill);
-    }
-
-    private void UpdateText()
-    {
-        scoreText.text = $"Score: \n{Score}";
-        killText.text = $"Enemy left: \n{KillCounter}";
     }
     private void OpenDoor()
     {
@@ -98,13 +144,17 @@ public class GameManager : MonoBehaviour
     {
         timeToKill += Time.deltaTime;
     }
-    
+
     private void OnDestroy()
     {
         EventManager.PlayerSpawned -= PlayerSpawned;
         EventManager.EnemySpawned -= EnemySpawned;
         EventManager.PlayerDead -= PlayerDead;
         EventManager.EnemyDead -= EnemyDead;
+        ExitCollider.ExitEntered -= OnExitEntered;
+        BossTrigger.ArenaEntered -= OnArenaEntered;
+        EventManager.GameEnd -= OnGameEnded;
+        EventManager.GameEnd -= OnGameEnded;
     }
-   
+
 }

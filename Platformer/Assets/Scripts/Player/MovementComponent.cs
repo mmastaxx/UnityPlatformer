@@ -43,7 +43,9 @@ public class Movement : MonoBehaviour
         if (playerInput.movementInput.x > 0.01)
             transform.localScale = Vector2.one;
         else if (playerInput.movementInput.x < -0.01)
+        {
             transform.localScale = new Vector2(-1, transform.localScale.y);
+        }
 
         animator.SetBool("bRun", playerInput.movementInput.x != 0);
     }

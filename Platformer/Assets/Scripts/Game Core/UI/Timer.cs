@@ -7,33 +7,34 @@ using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private TMP_Text timerText;
-    private float timeToDisplay = 0;
+    public TMP_Text timerText;
+    public float timeToDisplay{ get; private set; } = 0;
     private bool isRunning = false;
 
     private void OnEnable()
     {
         EventManager.TimerStart += EventManagerOnTimerStart;
         EventManager.TimerStop += EventManagerOnTimerStop;
+        DDOL_Manager.DontDestroyOnLoad(gameObject);
     }
 
     private void EventManagerOnTimerStop() { isRunning = false; }
 
     private void EventManagerOnTimerStart() { isRunning = true; }
-
-    private void OnDisable()
-    {
-        EventManager.TimerStart -= EventManagerOnTimerStart;
-        EventManager.TimerStop -= EventManagerOnTimerStop;
-    }
+    
     void Update()
     {
-        if (isRunning)
+        if (isRunning && timerText!=null)
         {
             timeToDisplay += Time.deltaTime;
             TimeSpan timeSpan = TimeSpan.FromSeconds(timeToDisplay);
             timerText.text = "Time:\n"+timeSpan.ToString(@"mm\:ss\:ff");
         }
-
+    }
+    
+    private void OnDisable()
+    {
+        EventManager.TimerStart -= EventManagerOnTimerStart;
+        EventManager.TimerStop -= EventManagerOnTimerStop;
     }
 }

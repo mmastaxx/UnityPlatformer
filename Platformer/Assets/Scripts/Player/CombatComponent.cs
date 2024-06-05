@@ -110,15 +110,13 @@ public class CombatComponent : MonoBehaviour
     }
     private void EndRoll()
     {
-        healthComponent.IFramesOff();
         playerMovement.enabled = true;
-
+        healthComponent.IFramesOff();
     }
     private void AttackStart()
     {
         ++attackIndex;
         audioManager.Play("attack" + (attackIndex-1));
-        Debug.Log(attackIndex);
         
     }
     private void OnDrawGizmos()

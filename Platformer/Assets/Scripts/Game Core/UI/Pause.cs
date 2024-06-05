@@ -34,7 +34,7 @@ public class Pause : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (Input.GetKeyDown(KeyCode.P)) 
         {
             if(bGamePaused) 
             {
@@ -55,6 +55,12 @@ public class Pause : MonoBehaviour
     }
 
     void resume()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        bGamePaused = false;
+    }
+    private void OnDisable()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;

@@ -16,6 +16,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TMP_Text time;
     [SerializeField] private TMP_Text score;
     bool isOpened = false;
+    private void Start()
+    {
+        DDOL_Manager.DestroyAll();
+    }
     public void StartGame() 
     {
         soundSource.PlayOneShot(soundPlay);
@@ -27,7 +31,8 @@ public class MainMenu : MonoBehaviour
         {
             isOpened = true;
             soundSource.PlayOneShot(soundTrophy);
-            TimeSpan timespan = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("BestTime",0f));
+            float bestTime = PlayerPrefs.GetFloat("BestTime", 3599.99f);
+            TimeSpan timespan = TimeSpan.FromSeconds(bestTime);
             time.text = "Best time " + timespan.ToString(@"mm\:ss\:ff");
             score.text = "Best score " + PlayerPrefs.GetInt("BestScore", 0);
         }

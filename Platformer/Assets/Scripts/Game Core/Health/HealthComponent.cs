@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    public float maxHealth { get; private set; } = 100.0f ;
-    
+    public float maxHealth = 100.0f;
+
     [Header("iFrames")]
     [SerializeField] float iFrameDuration = 1.0f;
     [SerializeField] int numberOfFlash = 6;
@@ -14,12 +14,12 @@ public class HealthComponent : MonoBehaviour
     const int PLAYER_LAYER = 7;
     const int ENEMY_LAYER = 6;
     SpriteRenderer spriteRenderer;
-    bool invulnerable;
+    bool invulnerable = false;
     bool dead = false;
     float currentHealth;
-    public HealthBar healthBar;
+    private HealthBar healthBar;
     Animator animator;
-    
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -40,33 +40,30 @@ public class HealthComponent : MonoBehaviour
             healthBar.SetHealth(currentHealth);
             if (currentHealth > 0)
             {
-                if (gameObject.layer == ENEMY_LAYER)
-                {
-                    audioManager.Play("hurtEnemy" + UnityEngine.Random.Range(1, 4));
-                } else if (gameObject.layer == PLAYER_LAYER)
-                {
-                    audioManager.Play("hurt" + UnityEngine.Random.Range(1, 3));
-                }
                 animator.SetTrigger("hurt");
                 StartCoroutine(Invulnerability());
-            }
-            else
-            {
-                animator.SetTrigger("death");
-                dead = true;
                 if (gameObject.layer == ENEMY_LAYER)
                 {
-                    audioManager.Play("deathEnemy");
-                    gameObject.GetComponent<EnemyMovement>().enabled = false;
-                    gameObject.GetComponent<EnemyCombat>().enabled = false;
+                    if (gameObject.tag == "Boss")
+                    {
+                        audioManager.Play("hurt" + UnityEngine.Random.Range(1, 3));
+                    }
+                    else
+                    {
+                        audioManager.Play("hurtEnemy" + UnityEngine.Random.Range(1, 4));
+                    }
                 }
                 else if (gameObject.layer == PLAYER_LAYER)
                 {
-                    audioManager.Play("death");
-                    gameObject.GetComponent<PlayerInput>().enabled = false;
-                    gameObject.GetComponent<Movement>().enabled = false;
-                    gameObject.GetComponent<CombatComponent>().enabled = false;
+                    audioManager.Play("hurt" + UnityEngine.Random.Range(1, 3));
                 }
+
+            }
+            else
+            {
+                dead = true;
+                animator.SetBool("bAlive", false);
+                animator.SetTrigger("death");
             }
         }
     }
@@ -100,8 +97,40 @@ public class HealthComponent : MonoBehaviour
         spriteRenderer.color = Color.white;
         IFramesOff();
     }
-    private void Death(GameObject obj) 
+    private void Death(GameObject obj)
     {
-        if (gameObject.layer == PLAYER_LAYER) { EventManager.OnPlayerDead(gameObject); gameObject.GetComponent<Animator>().enabled = false; } else { EventManager.OnEnemyDead(gameObject); }
+        if (gameObject.layer == PLAYER_LAYER)
+            PlayerDeath();
+        else
+        {
+            if (gameObject.tag == "Boss")
+            {
+                Destroy(gameObject);
+                BossDeath();
+            }
+            else
+                EnemyDeath();
+        }
+    }
+    private void PlayerDeath()
+    {
+        EventManager.OnPlayerDead(gameObject);
+        audioManager.Play("death");
+        gameObject.GetComponent<Movement>().enabled = false;
+        gameObject.GetComponent<CombatComponent>().enabled = false;
+    }
+    private void EnemyDeath()
+    {
+        EventManager.OnEnemyDead(gameObject);
+        audioManager.Play("deathEnemy");
+        EnemyMovement movement = gameObject.GetComponent<EnemyMovement>();
+        EnemyCombat enemyCombat = gameObject.GetComponent<EnemyCombat>();
+        movement.enabled = false; 
+         enemyCombat.enabled = false; 
+    }
+    private void BossDeath()
+    {
+        audioManager.Play("death");
+        EventManager.OnGameEnd();
     }
 }

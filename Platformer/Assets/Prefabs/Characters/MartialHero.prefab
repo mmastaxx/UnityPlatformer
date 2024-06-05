@@ -299,7 +299,7 @@ Animator:
   m_GameObject: {fileID: 2610477025000680692}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ad9ea5500aee9ee48b000dbb2dd50d96, type: 2}
+  m_Controller: {fileID: 9100000, guid: 458d378bc51608e48a3dc55f98ef2879, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -324,7 +324,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iFrameDuration: 0
   numberOfFlash: 0
-  healthBar: {fileID: 0}
 --- !u!114 &3101128172593466484
 MonoBehaviour:
   m_ObjectHideFlags: 0

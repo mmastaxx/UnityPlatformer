@@ -73,8 +73,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(groundCollider.position, BoundColliderRadius);
-        Gizmos.DrawWireSphere(wallCollider.position, BoundColliderRadius);
-        Gizmos.DrawWireCube(new Vector3(transform.position.x + offsetX, transform.position.y - castDistance, transform.position.z), boxSize);
+        //Gizmos.DrawWireSphere(groundCollider.position, BoundColliderRadius);
+        //Gizmos.DrawWireSphere(wallCollider.position, BoundColliderRadius);
+        //Gizmos.DrawWireCube(new Vector3(transform.position.x + offsetX, transform.position.y - castDistance, transform.position.z), boxSize);
     }
 }
