@@ -24,6 +24,7 @@ public class CombatComponent : MonoBehaviour
     int attackIndex = 1;
     float timeSinceAttack = Mathf.Infinity;
     float timeSinceRoll = Mathf.Infinity;
+    bool isRoll=  false;
     Animator animator;
     PlayerInput playerInput;
     Movement playerMovement;
@@ -77,9 +78,11 @@ public class CombatComponent : MonoBehaviour
     }
     private void Block()
     {
-        if (playerInput.blockDownInput)
+        if (playerInput.blockDownInput&&animator.GetBool("bGrounded"))
         {
             animator.SetBool("bBlock", true);
+            body.velocity = Vector3.zero;
+            playerMovement.enabled = false;
             Collider2D[] blockedArray = Physics2D.OverlapCircleAll(blockPoint.position, blockRadius, projectileMask);
             if (blockedArray.Length != 0)
             {
@@ -89,6 +92,8 @@ public class CombatComponent : MonoBehaviour
         else if (playerInput.blockUpInput)
         {
             animator.SetBool("bBlock", false);
+            playerMovement.enabled = true;
+            playerMovement.speed = 6;
         }
     }
     private void Roll()
@@ -97,11 +102,12 @@ public class CombatComponent : MonoBehaviour
         if (playerInput.rollInput && timeSinceRoll > rollCooldown)
         {
             animator.SetTrigger("roll");
+            isRoll = true;
             playerMovement.enabled = false;
             timeSinceRoll = 0;
             healthComponent.IFramesOn();
         }
-        if (!playerMovement.enabled)
+        if (isRoll)
         {
             body.velocity = new Vector2(transform.localScale.normalized.x * playerMovement.speed, body.velocity.y);
         }
@@ -110,8 +116,11 @@ public class CombatComponent : MonoBehaviour
     }
     private void EndRoll()
     {
+        isRoll = false;
         playerMovement.enabled = true;
         healthComponent.IFramesOff();
+        if (!playerMovement.isGrounded())
+            animator.SetBool("bFalling", true);
     }
     private void AttackStart()
     {

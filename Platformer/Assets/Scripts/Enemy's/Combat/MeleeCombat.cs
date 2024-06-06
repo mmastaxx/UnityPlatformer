@@ -15,7 +15,19 @@ public class MeleeCombat : EnemyCombat
     {
         movement = GetComponent<EnemyMovement>();
         animator = GetComponent<Animator>();
+        GetComponent<HealthComponent>().EnemyDamaged += OnEnemyDamaged;
     }
+
+    private void OnEnemyDamaged()
+    {
+        Debug.Log(name);
+        RaycastHit2D hit = PlayerInSight();
+        if (!hit.collider&&movement.enabled)
+        {
+            movement.DirectionChange();
+        }
+    }
+
     public override void Attack()
     {
         if (attackCooldownTimer > attackCooldown)
@@ -32,28 +44,25 @@ public class MeleeCombat : EnemyCombat
 
     public override RaycastHit2D PlayerInSight()
     {
+        RaycastHit2D hit = new RaycastHit2D();
+        switch (attackType)
         {
-            RaycastHit2D hit = new RaycastHit2D();
-            switch (attackType)
-            {
-                case DamageType.Radial:
-                    hit = Physics2D.CircleCast(attackPoint.position, rangeOfAttack.x, Vector2.right * transform.localScale.normalized, 0, playerLayer);
-                    break;
-                case DamageType.Boxed:
-                    hit = Physics2D.BoxCast(attackPoint.position, rangeOfAttack, 0, Vector2.right * transform.localScale.normalized, 0, playerLayer);
-                    break;
-                case DamageType.Linear:
-                    hit = Physics2D.Linecast(new Vector2(attackPoint.position.x - rangeOfAttack.x / 2, attackPoint.position.y), new Vector2(attackPoint.position.x + rangeOfAttack.x / 2, attackPoint.position.y), playerLayer);
-                    break;
-            }
-            return hit;
+            case DamageType.Radial:
+                hit = Physics2D.CircleCast(attackPoint.position, rangeOfAttack.x, Vector2.right * transform.localScale.normalized, 0, playerLayer);
+                break;
+            case DamageType.Boxed:
+                hit = Physics2D.BoxCast(attackPoint.position, rangeOfAttack, 0, Vector2.right * transform.localScale.normalized, 0, playerLayer);
+                break;
+            case DamageType.Linear:
+                hit = Physics2D.Linecast(new Vector2(attackPoint.position.x - rangeOfAttack.x / 2, attackPoint.position.y), new Vector2(attackPoint.position.x + rangeOfAttack.x / 2, attackPoint.position.y), playerLayer);
+                break;
         }
+        return hit;
     }
     enum DamageType
     {
         Radial, Boxed, Linear
     }
-    // Update is called once per frame
     void Update()
     {
         attackCooldownTimer += Time.deltaTime;
@@ -62,7 +71,7 @@ public class MeleeCombat : EnemyCombat
             movement.enabled = false;
             Attack();
         }
-        else 
+        else
         {
             movement.enabled = true;
         }
@@ -82,5 +91,9 @@ public class MeleeCombat : EnemyCombat
                 Gizmos.DrawLine(new Vector2(attackPoint.position.x - rangeOfAttack.x / 2, attackPoint.position.y), new Vector2(attackPoint.position.x + rangeOfAttack.x / 2, attackPoint.position.y));
                 break;
         }
+    }
+    private void OnDestroy()
+    {
+        GetComponent<HealthComponent>().EnemyDamaged -= OnEnemyDamaged;
     }
 }

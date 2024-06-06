@@ -10,9 +10,11 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject RecordsHadler;
+    [SerializeField] GameObject ResetStatHandler;
     [SerializeField] AudioSource soundSource;
     [SerializeField] AudioClip soundTrophy;
     [SerializeField] AudioClip soundPlay;
+    [SerializeField] AudioClip reset;
     [SerializeField] private TMP_Text time;
     [SerializeField] private TMP_Text score;
     bool isOpened = false;
@@ -38,9 +40,21 @@ public class MainMenu : MonoBehaviour
         }
         else
             isOpened = false;
+        ResetStatHandler.SetActive(isOpened);
         RecordsHadler.SetActive(isOpened);
     }
 
+    public void ResetStat() 
+    {
+        soundSource.PlayOneShot(reset);
+        PlayerPrefs.SetInt("BestScore", 0);
+        PlayerPrefs.SetFloat("BestTime", 3599.99f);
+        float bestTime = PlayerPrefs.GetFloat("BestTime", 3599.99f);
+        TimeSpan timespan = TimeSpan.FromSeconds(bestTime);
+        time.text = "Best time " + timespan.ToString(@"mm\:ss\:ff");
+        score.text = "Best score " + PlayerPrefs.GetInt("BestScore", 0);
+
+    }
     // Update is called once per frame
     public void QuitGame() 
     {

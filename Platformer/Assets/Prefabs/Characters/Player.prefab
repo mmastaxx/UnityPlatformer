@@ -484,7 +484,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   blockRadius: 0.33
-  attackCooldown: 0.7
+  attackCooldown: 0.5
   rollCooldown: 0.7
   comboCooldown: 3
 --- !u!114 &7434407061919147272

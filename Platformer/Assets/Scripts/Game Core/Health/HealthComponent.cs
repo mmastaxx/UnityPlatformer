@@ -9,7 +9,7 @@ public class HealthComponent : MonoBehaviour
     [Header("iFrames")]
     [SerializeField] float iFrameDuration = 1.0f;
     [SerializeField] int numberOfFlash = 6;
-
+    public event Action EnemyDamaged;
     AudioManager audioManager;
     const int PLAYER_LAYER = 7;
     const int ENEMY_LAYER = 6;
@@ -35,6 +35,8 @@ public class HealthComponent : MonoBehaviour
     {
         if (!invulnerable && !dead)
         {
+            if (animator.GetBool("bBlock"))
+                damage /= 4f;
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
 
             healthBar.SetHealth(currentHealth);
@@ -50,6 +52,7 @@ public class HealthComponent : MonoBehaviour
                     }
                     else
                     {
+                        EnemyDamaged?.Invoke();
                         audioManager.Play("hurtEnemy" + UnityEngine.Random.Range(1, 4));
                     }
                 }
@@ -125,8 +128,8 @@ public class HealthComponent : MonoBehaviour
         audioManager.Play("deathEnemy");
         EnemyMovement movement = gameObject.GetComponent<EnemyMovement>();
         EnemyCombat enemyCombat = gameObject.GetComponent<EnemyCombat>();
-        movement.enabled = false; 
-         enemyCombat.enabled = false; 
+        movement.enabled = false;
+        enemyCombat.enabled = false;
     }
     private void BossDeath()
     {

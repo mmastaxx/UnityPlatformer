@@ -18,7 +18,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("Patrol")]
     [SerializeField] float speed;
     [SerializeField] float idleDuration;
-    
+
     Animator animator;
     Vector3 initScale;
     int direction;
@@ -48,21 +48,21 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            DirectionChange();
+            animator.SetBool("bRun", false);
+            idleTimer += Time.deltaTime;
+            if (idleTimer >= idleDuration)
+            {
+                DirectionChange();
+            }
         }
     }
 
-    private void DirectionChange()
+    public void DirectionChange()
     {
-        animator.SetBool("bRun", false);
-        idleTimer += Time.deltaTime;
-        if (idleTimer >= idleDuration)
-        {
-            direction = -direction;
-            transform.localScale = new Vector3(MathF.Abs(initScale.x) * direction, initScale.y, initScale.z);
-            boxSize.Scale(new Vector2(-1f,1f));
-            offsetX *= -1;
-        }
+        direction = -direction;
+        transform.localScale = new Vector3(MathF.Abs(initScale.x) * direction, initScale.y, initScale.z);
+        boxSize.Scale(new Vector2(-1f, 1f));
+        offsetX *= -1;
     }
     private void MoveInDirection()
     {
@@ -73,8 +73,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //Gizmos.DrawWireSphere(groundCollider.position, BoundColliderRadius);
-        //Gizmos.DrawWireSphere(wallCollider.position, BoundColliderRadius);
-        //Gizmos.DrawWireCube(new Vector3(transform.position.x + offsetX, transform.position.y - castDistance, transform.position.z), boxSize);
+        Gizmos.DrawWireSphere(groundCollider.position, BoundColliderRadius);
+        Gizmos.DrawWireSphere(wallCollider.position, BoundColliderRadius);
+        Gizmos.DrawWireCube(new Vector3(transform.position.x + offsetX, transform.position.y - castDistance, transform.position.z), boxSize);
     }
 }

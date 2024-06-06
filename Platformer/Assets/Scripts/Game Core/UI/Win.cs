@@ -20,8 +20,6 @@ public class Win : MonoBehaviour
     private void Awake()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
-        time = FindObjectOfType<Timer>();
-        score = FindObjectOfType<Score>();
     }
     public void BackToMenu()
     {
@@ -32,6 +30,9 @@ public class Win : MonoBehaviour
     // Update is called once per frame
     private void OnEnable()
     {
+        score = FindObjectOfType<Score>();
+        time = FindObjectOfType<Timer>();
+        Debug.Log(time.timeToDisplay);
         TimeSpan timeSpan = TimeSpan.FromSeconds(time.timeToDisplay);
         TimeTitle.text = "Your time: " + timeSpan.ToString(@"mm\:ss\:ff");
         ScoreTitle.text = "Your score: "+ score.score;

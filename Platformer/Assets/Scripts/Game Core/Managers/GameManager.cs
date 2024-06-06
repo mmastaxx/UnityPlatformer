@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
     public void EnemySpawned(GameObject enemy)
     {
         KillCounter++;
+
     }
     public void PlayerSpawned(GameObject player)
     {
