@@ -173,9 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8393af549a137e64ebb81e86c6d7107c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   iFrameDuration: 0
   numberOfFlash: 0
-  healthBar: {fileID: 0}
 --- !u!114 &7531554550440951515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +368,10 @@ PrefabInstance:
     - target: {fileID: 5571653764469840206, guid: 236f51b22286a7a48b981a24cb6218c5, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571653764469840206, guid: 236f51b22286a7a48b981a24cb6218c5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5753470034135046190, guid: 236f51b22286a7a48b981a24cb6218c5, type: 3}
       propertyPath: m_Pivot.x

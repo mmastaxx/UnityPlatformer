@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  attackCooldown: 0.33
+  attackCooldown: 0.66
 --- !u!1101 &1383261992197474441
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

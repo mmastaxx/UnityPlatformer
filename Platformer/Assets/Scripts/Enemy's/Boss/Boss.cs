@@ -45,8 +45,8 @@ public class Boss : MonoBehaviour
     {
         
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(new Vector3(attackPos.position.x, attackPos.position.y), range.x);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(new Vector3(attackPos.position.x, attackPos.position.y), range.x);
+    //}
 }

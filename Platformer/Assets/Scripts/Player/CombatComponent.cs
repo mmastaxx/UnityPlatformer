@@ -128,10 +128,10 @@ public class CombatComponent : MonoBehaviour
         audioManager.Play("attack" + (attackIndex-1));
         
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(blockPoint.position, blockRadius);
-        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(blockPoint.position, blockRadius);
+    //    Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+    //}
 
 }

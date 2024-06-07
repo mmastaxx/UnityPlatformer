@@ -71,8 +71,8 @@ public class Movement : MonoBehaviour
         animator.SetBool("bFalling", true);
         return false;
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(new Vector3(transform.position.x-0.07f, transform.position.y, transform.position.z)-transform.up*castDistance,boxSize);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireCube(new Vector3(transform.position.x-0.07f, transform.position.y, transform.position.z)-transform.up*castDistance,boxSize);
+    //}
 }

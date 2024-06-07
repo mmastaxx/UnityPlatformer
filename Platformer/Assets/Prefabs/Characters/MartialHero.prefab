@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8393af549a137e64ebb81e86c6d7107c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   iFrameDuration: 0
   numberOfFlash: 0
 --- !u!114 &3101128172593466484
